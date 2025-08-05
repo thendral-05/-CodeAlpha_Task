@@ -1,0 +1,50 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# Sample dataset
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
+    'Math': [85, 90, 78, 88, 76],
+    'Science': [92, 85, 88, 76, 80],
+    'English': [75, 80, 72, 90, 85]
+}
+
+df = pd.DataFrame(data)
+
+# 1. Bar chart: Average scores per subject
+avg_scores = df[['Math', 'Science', 'English']].mean()
+
+plt.figure(figsize=(6, 4))
+avg_scores.plot(kind='bar', color='skyblue')
+plt.title('Average Scores per Subject')
+plt.ylabel('Marks')
+plt.tight_layout()
+plt.savefig("average_scores.png")
+plt.show()
+
+# 2. Pie chart: Grade distribution (Simple example based on Math marks)
+def get_grade(mark):
+    if mark >= 85:
+        return 'A'
+    elif mark >= 75:
+        return 'B'
+    else:
+        return 'C'
+
+df['Grade'] = df['Math'].apply(get_grade)
+grade_counts = df['Grade'].value_counts()
+
+plt.figure(figsize=(5, 5))
+plt.pie(grade_counts, labels=grade_counts.index, autopct='%1.1f%%', colors=['#66b3ff','#99ff99','#ff9999'])
+plt.title('Grade Distribution (Math)')
+plt.savefig("grade_distribution.png")
+plt.show()
+
+# 3. Heatmap: Correlation between subjects
+plt.figure(figsize=(5, 4))
+sns.heatmap(df[['Math', 'Science', 'English']].corr(), annot=True, cmap='coolwarm')
+plt.title('Subject Score Correlation')
+plt.tight_layout()
+plt.savefig("score_correlation.png")
+plt.show()
